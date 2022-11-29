@@ -1,0 +1,37 @@
+.registrationForm {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    &__wrapper {
+        margin: 0 auto;
+        list-style-type: none;
+        border-radius: 3px;
+    }
+    &__item {
+        display: flex;
+        justify-content: flex-end;
+        padding: .5em;
+        border-radius: 15;
+        label {
+            margin-left: 5px;
+            flex: 1;
+            text-shadow: 2px 2px 2px #000;
+        }
+        input {
+            margin-left: 10px;
+            flex: 2;
+            border-radius: 20px;
+        }
+    }
+}
+.btn {
+    width: 120px;
+    border-radius:20px;
+    font-weight: bold;
+    margin-left: 5px;
+    &:hover {
+        background-color:gray;
+    }
+}

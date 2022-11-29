@@ -1,0 +1,55 @@
+.dashboard {
+    margin: 50px 60px 50px 60px;
+    display: grid;
+    grid-template-columns: 400px 1fr 450px;
+
+    &__main {
+        color: white;
+        &_card {
+            margin: 0 auto;
+            display: flex;
+            height: 400px;
+            width: 428px;
+            background-image:url(../../resources/img/credit-card.png);
+            background-position: center center;
+            -webkit-background-size: cover;
+            opacity: 0.9;
+
+            div {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                max-width: 200px;
+                .balance {
+                    margin-top: 170px;
+                    margin-left: 10px;
+                    font-weight: bold;
+                    font-size: large;
+                    color:white;
+                    text-shadow: 2px 2px 2px #000;
+                }
+                .sum {
+                    margin-top: 10px;
+                    margin-left: 80px;
+                    font-weight: bold;
+                    font-size: 45px;
+                    color:white;
+                    text-shadow: 2px 2px 2px #000;
+                }
+                .name {
+                    margin-top: 23px;
+                    margin-left:37px;
+                    font-weight: bold;
+                    color: black;
+                }
+
+            }
+        }
+    }
+    &__sidebar {
+        color: #fff;
+    }
+    &__coin {
+        color:#fff;
+    }
+}
