@@ -4,25 +4,38 @@ import { useHttp } from "../hooks/http.hook";
 import crypto from 'crypto-browserify';
 
 
+
 const useCryptoService = () => {
     const {loading, request, error, clearError} = useHttp();
 
-    const apiKey = 'IBysRwbhdcd6aEZ452';
-    const apiSecret = 'IBysRwbhdcd6aEZ452';
-    const timestamp = Date.now().toString();
+    // const api_key = 'U0agEbblySd8kSdn0R';
+    // const apiSecret = 'U5iElEDTAJLqOki3qs9UQLj8VWqR4MCFBqMV';
+
+    const api_key = 'xxemLYPxfAs0cE3GYM';
+    const apiSecret = '3VKhuGWj8sRxsGfoTbxGxW0D3hmIdZ6NjHal';
+
+    
+    let timestamp = Date.now().toString();
 
     const expires = new Date().getTime() + 10000;
+    let sign;
+
+    // const sign = crypto.createHmac('sha256', apiSecret).update('GET/realtime' + expires).digest('hex');
 
 
-    const getFirstInformation = () => {
-        const signature = crypto.createHmac('sha256', apiSecret).update('GET/realtime' + expires).digest('hex');
-        console.log(signature)
-        // const res = await request('https://api-testnet.bybit.com/v2/public/index-price-kline?symbol=BTCUSD&interval=1&limit=2&from=1581231260')
-        // console.log(res);
+
+    const getSignature = () => {
+        return sign = crypto.createHmac('sha256', apiSecret).update('GET/realtime' + expires).digest('hex')
+    }
+
+    const getFirstInformation = async () => {
+        getSignature();
+        const res = await request(`https://api.bybit.com/v2/private/wallet/balance?api_key=${api_key}&coin=BTC&timestamp=${timestamp}&sign=${sign}`)
+        console.log(res);
     }
 
     const getPrices = async () => {
-        const res = await request('https://api-testnet.bybit.com/v2/public/tickers');
+        const res = await request('https://api.bybit.com/v2/public/tickers');
 
         let firstNumber = +(Math.round((Math.random() * (184 - 0) + 0)));
         let secondNumber = firstNumber + 10;
