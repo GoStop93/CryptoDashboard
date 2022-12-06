@@ -5,10 +5,6 @@ import crypto from 'crypto-browserify';
 
 
 
-
-
-
-
 const useCryptoService = () => {
     const {loading, request, error, clearError} = useHttp();
 
@@ -22,18 +18,50 @@ const useCryptoService = () => {
     
     let timestamp = Date.now().toString();
 
-    const expires = new Date().getTime() + 10000;
 
 
-    const sign = crypto.createHmac('sha256', apiSecret).update('GET/realtime' + expires).digest('hex');
+    const sign = crypto.createHmac('sha256', apiSecret).update(`api_key=${api_key}&timestamp=${timestamp}`).digest('hex');
 
-    // const getSignature = () => {
-    //     return sign = crypto.createHmac('sha256', apiSecret).update('GET/realtime' + expires).digest('hex')
-    // }
 
-    const getFirstInformation = async () => {
-        const res = await request(`https://api-testnet.bybit.com/v2/private/wallet/balance?api_key=${api_key}&coin=BTC&timestamp=${timestamp}&sign=${sign}`)
-        console.log(res);
+    const getTransactionHistory = async () => {
+        const res = await request(`https://api-testnet.bybit.com/v2/private/exchange-order/list?api_key=${api_key}&timestamp=${timestamp}&sign=${sign}`
+        )
+        console.log(Object.values(res.result).map(transformeTransaction));
+        return Object.values(res.result).map(transformeTransaction);
+    }
+
+    const transformeTransaction = (item) => {
+        return {
+            from: item.from_coin,
+            to: item.to_coin,
+            amount: item.to_amount
+        }
+    }
+
+    const getWalletBalance = async () => {
+        let signBalance = crypto.createHmac('sha256', apiSecret).update(`api_key=${api_key}&coin=USDT&timestamp=${timestamp}`).digest('hex');
+        const res = await request(`https://api-testnet.bybit.com/v2/private/wallet/balance?api_key=${api_key}&coin=USDT&timestamp=${timestamp}&sign=${signBalance}`);
+        return Math.round(Object.values(res.result)[0].available_balance);
+    }
+
+
+    const getPricesForGraphBtc= async () => {
+        const res = await request(`https://api-testnet.bybit.com/v2/public/index-price-kline?symbol=BTCUSD&interval=M&limit=12&from=1640995200`);
+        return res.result.map(transformKline);
+    }
+
+    const getPricesForGraphEth= async () => {
+        const res = await request(`https://api-testnet.bybit.com/v2/public/index-price-kline?symbol=ETHUSD&interval=M&limit=12&from=1640995200`);
+        return res.result.map(transformKline);
+    }
+
+    const getPricesForGrapLtc = async () => {
+        const res = await request(`https://api-testnet.bybit.com/v2/public/index-price-kline?symbol=LTCUSD&interval=M&limit=12&from=140995200`);
+        return res.result.map(transformKline);
+    }
+
+    const transformKline = (item) => {
+        return item.open
     }
 
 
@@ -54,7 +82,8 @@ const useCryptoService = () => {
         }
     }
 
-    return {loading, error, clearError, getPrices, getFirstInformation}
+
+    return {loading, error, clearError, getPrices, getPricesForGraphBtc, getPricesForGraphEth, getPricesForGrapLtc, getWalletBalance, getTransactionHistory}
 }
 
 export default useCryptoService;

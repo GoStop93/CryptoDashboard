@@ -7,6 +7,7 @@
         color: white;
         &_card {
             margin: 0 auto;
+            margin-top: -30px;
             display: flex;
             height: 400px;
             width: 428px;
@@ -14,7 +15,6 @@
             background-position: center center;
             -webkit-background-size: cover;
             opacity: 0.9;
-
             div {
                 display: flex;
                 flex-direction: column;
@@ -42,7 +42,44 @@
                     font-weight: bold;
                     color: black;
                 }
+            }
+            .img {
+                margin-top: 185px;
+                margin-left: 70px;
+                height: 120px;
+            }
+        }
+        &_graph {
+            margin-top: 40px;
 
+            &_menu {
+
+                margin: 0;
+                display: flex;
+                justify-content: space-around;
+                li {
+                    list-style-type: none;
+                }
+                &_item {
+                    box-shadow: 0px 10px 10px rgb(0, 0, 0);
+                    border-radius: 15px;
+                    cursor: pointer;
+                    transition: 0.3s transform;
+                    &_name {
+                        font-size:small;
+                        text-shadow: 2px 2px 2px #000;
+                    }
+                    &_img {
+                        margin-top: 10px;
+                        height: 30px;
+                        width: 30px;
+                    }
+                }
+            }
+            &_diagram {
+                display: block;
+                margin: 0 auto;
+                width: 500px;
             }
         }
     }
@@ -51,5 +88,10 @@
     }
     &__coin {
         color:#fff;
+    }
+    .selected {
+        box-shadow: 0px 5px 20px white;
+        border-radius: 15px;
+        transform: translateY(-8px);
     }
 }
